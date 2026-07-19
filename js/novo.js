@@ -27,15 +27,16 @@ botao.addEventListener("click", async () => {
         return;
     }
 
-    // Busca os dados do usuário
-    const docUsuario = await getDoc(doc(db, "usuarios", usuario.email));
+    // Busca o usuário no Firestore (mesma lógica do login)
+    const referencia = doc(db, "usuarios", usuario.uid);
+    const dados = await getDoc(referencia);
 
-    if (!docUsuario.exists()) {
-        alert("Usuário não encontrado.");
+    if (!dados.exists()) {
+        alert("Usuário não encontrado no sistema.");
         return;
     }
 
-    const dadosUsuario = docUsuario.data();
+    const tipo = dados.data().tipo;
 
     if (!empresa || !quantidade || !horario || !texto || numeros.length === 0) {
         alert("Preencha todos os campos obrigatórios.");
@@ -98,10 +99,19 @@ botao.addEventListener("click", async () => {
 
         alert("Agendamento enviado com sucesso!");
 
-        if (dadosUsuario.tipo === "Admin") {
+        // Mesmo redirecionamento do login
+        if (tipo === "Admin") {
+
             window.location.href = "admin.html";
-        } else {
+
+        } else if (tipo === "Parceiro") {
+
             window.location.href = "dashboard.html";
+
+        } else {
+
+            alert("Tipo de usuário não configurado.");
+
         }
 
     } catch (erro) {
