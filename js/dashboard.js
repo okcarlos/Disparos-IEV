@@ -60,14 +60,21 @@ ${agendamento.horario}
 </p>
 
 <p>
+<strong>Mensagem:</strong>
+${agendamento.texto}
+</p>
+
+<p>
+<strong>Numeros</strong>
+${agendamento.numeros}
+</p>
+
+
+<p>
 <strong>Status:</strong>
 ${agendamento.status}
 </p>
 
-<p>
-<strong>Mensagem:</strong>
-${agendamento.texto}
-</p>
 
 <p>
 <strong>Anexos:</strong>
