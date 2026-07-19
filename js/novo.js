@@ -3,6 +3,7 @@ import { db, auth } from "./firebase.js";
 import {
     doc,
     setDoc,
+    getDoc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -14,7 +15,10 @@ botao.addEventListener("click", async () => {
     const quantidade = document.getElementById("quantidade").value;
     const horario = document.getElementById("horario").value;
     const texto = document.getElementById("texto").value.trim();
-    const numeros = document.getElementById("numeros").value.split("\n").map(n => n.trim()).filter(n => n !== "");
+    const numeros = document.getElementById("numeros").value
+        .split("\n")
+        .map(n => n.trim())
+        .filter(n => n !== "");
 
     const usuario = auth.currentUser;
 
@@ -23,7 +27,17 @@ botao.addEventListener("click", async () => {
         return;
     }
 
-    if (!empresa || !quantidade || !horario || !texto || !numeros) {
+    // Busca os dados do usuário
+    const docUsuario = await getDoc(doc(db, "usuarios", usuario.email));
+
+    if (!docUsuario.exists()) {
+        alert("Usuário não encontrado.");
+        return;
+    }
+
+    const dadosUsuario = docUsuario.data();
+
+    if (!empresa || !quantidade || !horario || !texto || numeros.length === 0) {
         alert("Preencha todos os campos obrigatórios.");
         return;
     }
@@ -85,15 +99,14 @@ botao.addEventListener("click", async () => {
         alert("Agendamento enviado com sucesso!");
 
         if (dadosUsuario.tipo === "admin") {
-        window.location.href = "admin.html";
+            window.location.href = "admin.html";
         } else {
-        window.location.href = "dashboard.html";
+            window.location.href = "dashboard.html";
         }
 
     } catch (erro) {
 
         console.error(erro);
-
         alert(erro.message);
 
     } finally {
@@ -122,17 +135,13 @@ function configurarUpload(idInput) {
         if (input.files.length > 0) {
 
             titulo.textContent = input.files[0].name;
-
             status.textContent = "✔ Arquivo anexado";
-
             card.classList.add("selecionado");
 
         } else {
 
             titulo.textContent = nomeOriginal;
-
             status.textContent = "Clique para selecionar";
-
             card.classList.remove("selecionado");
 
         }
