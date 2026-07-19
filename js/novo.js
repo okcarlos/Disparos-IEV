@@ -14,6 +14,7 @@ botao.addEventListener("click", async () => {
     const quantidade = document.getElementById("quantidade").value;
     const horario = document.getElementById("horario").value;
     const texto = document.getElementById("texto").value.trim();
+    const numeros = document.getElementById("numeros").value.split("\n").map(n => n.trim()).filter(n => n !== "");
 
     const usuario = auth.currentUser;
 
@@ -22,7 +23,7 @@ botao.addEventListener("click", async () => {
         return;
     }
 
-    if (!empresa || !quantidade || !horario || !texto) {
+    if (!empresa || !quantidade || !horario || !texto || !numeros) {
         alert("Preencha todos os campos obrigatórios.");
         return;
     }
@@ -67,6 +68,7 @@ botao.addEventListener("click", async () => {
             quantidade,
             horario,
             texto,
+            numeros,
 
             parceiro: usuario.email,
 
