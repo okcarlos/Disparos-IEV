@@ -44,7 +44,7 @@ botao.addEventListener("click", async () => {
         if (imagem) formData.append("imagem", imagem);
         if (comprovante) formData.append("comprovante", comprovante);
 
-        const resposta = await fetch("https://agendamentos-disparos.vercel.app", {
+        const resposta = await fetch("https://agendamentos-disparos.onrender.com/upload", {
             method: "POST",
             body: formData
         });
