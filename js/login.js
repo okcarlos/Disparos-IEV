@@ -51,14 +51,14 @@ botao.addEventListener("click", async () => {
 
             if(tipo === "Admin"){
 
-                window.location = "Admin.html";
+                window.location = "admin.html";
 
             }
 
 
             else if(tipo === "Parceiro"){
 
-                window.location = "Dashboard.html";
+                window.location = "dashboard.html";
 
             }
 
