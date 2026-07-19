@@ -1,0 +1,157 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Roboto',sans-serif;
+}
+
+body{
+    background:#0d0d0d;
+    color:white;
+}
+
+.dashboard{
+    width:95%;
+    margin:30px auto;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+header h1{
+    font-size:34px;
+    font-weight:500;
+}
+
+#usuario{
+    color:#b0b0b0;
+    margin-top:6px;
+}
+
+button{
+    padding:14px 24px;
+    border:none;
+    border-radius:8px;
+    background:#242424;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:500;
+    transition:.2s;
+}
+
+button:hover{
+    background:#3a3a3a;
+}
+
+.lista{
+    background:#171717;
+    border:1px solid #1d1bbc;
+    border-radius:12px;
+    padding:25px;
+}
+
+.lista h2{
+    margin-bottom:20px;
+    color:#ffffff;
+}
+
+/* Tabela */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#1d1bbc;
+}
+
+thead th{
+    padding:15px;
+    text-align:left;
+    font-weight:500;
+}
+
+tbody td{
+    padding:15px;
+    border-bottom:1px solid #2a2a2a;
+}
+
+tbody tr:hover{
+    background:#202020;
+}
+
+/* Status */
+
+.status{
+    padding:6px 14px;
+    border-radius:30px;
+    color:white;
+    font-size:13px;
+}
+
+.aguardando{
+    background:#d4a100;
+}
+
+.andamento{
+    background:#1976d2;
+}
+
+.finalizado{
+    background:#2e7d32;
+}
+
+.cancelado{
+    background:#b71c1c;
+}
+
+@media(max-width:900px){
+
+    header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    button{
+        width:100%;
+    }
+
+}
+
+/* SELECT DE STATUS */
+
+select.status{
+
+    background:#222;
+
+    color:white;
+
+    border:1px solid #1d1bbc;
+
+    padding:10px 15px;
+
+    border-radius:8px;
+
+    outline:none;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+}
+
+
+select.status option{
+
+    background:#171717;
+
+    color:white;
+
+}

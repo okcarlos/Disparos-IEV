@@ -1,0 +1,222 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Roboto',sans-serif;
+}
+
+body{
+
+    background:#0d0d0d;
+
+    color:white;
+
+}
+
+.dashboard{
+
+    width:95%;
+
+    margin:30px auto;
+
+}
+
+/* Cabeçalho */
+
+header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+
+}
+
+header h1{
+
+    font-size:34px;
+
+}
+
+#usuario{
+
+    color:#b0b0b0;
+
+    margin-top:6px;
+
+}
+
+/* Área de ações */
+
+.acoes{
+
+    margin-bottom:30px;
+
+}
+
+button{
+
+    padding:14px 24px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#1d1bbc;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.2s;
+
+    font-weight:500;
+
+}
+
+button:hover{
+
+    background:#2d2bdb;
+
+}
+
+/* Botão sair */
+
+#logout{
+
+    background:#242424;
+
+}
+
+#logout:hover{
+
+    background:#3a3a3a;
+
+}
+
+/* Painel */
+
+.lista{
+
+    background:#171717;
+
+    border:1px solid #1d1bbc;
+
+    border-radius:12px;
+
+    padding:25px;
+
+}
+
+.lista h2{
+
+    margin-bottom:20px;
+
+}
+
+/* Tabela */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+thead{
+
+    background:#1d1bbc;
+
+}
+
+thead th{
+
+    padding:15px;
+
+    text-align:left;
+
+}
+
+tbody tr{
+
+    border-bottom:1px solid #2d2d2d;
+
+}
+
+tbody tr:hover{
+
+    background:#202020;
+
+}
+
+tbody td{
+
+    padding:15px;
+
+}
+
+/* Status */
+
+.status{
+
+    padding:6px 14px;
+
+    border-radius:30px;
+
+    color:white;
+
+    font-size:13px;
+
+}
+
+.aguardando{
+
+    background:#d4a100;
+
+}
+
+.andamento{
+
+    background:#1976d2;
+
+}
+
+.finalizado{
+
+    background:#2e7d32;
+
+}
+
+.cancelado{
+
+    background:#b71c1c;
+
+}
+
+/* Responsivo */
+
+@media(max-width:900px){
+
+    header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:20px;
+
+    }
+
+    button{
+
+        width:100%;
+
+    }
+
+}
