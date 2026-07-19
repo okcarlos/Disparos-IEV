@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <header>
+
+        <div>
+
+            <h1>Dashboard</h1>
+
+            <p id="usuario"></p>
+
+        </div>
+
+        <button id="logout">
+            Sair
+        </button>
+
+    </header>
+
+    <section class="acoes">
+
+        <button onclick="location.href='novo.html'">
+            Novo Agendamento
+        </button>
+
+    </section>
+
+    <section class="lista">
+
+        <h2>Agendamentos Marcados</h2>
+
+        <div id="listaAgendamentos">
+
+            Nenhum agendamento cadastrado.
+
+        </div>
+
+    </section>
+
+</div>
+
+<script type="module" src="js/dashboard.js"></script>
+
+</body>
+</html>
