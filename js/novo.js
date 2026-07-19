@@ -84,7 +84,11 @@ botao.addEventListener("click", async () => {
 
         alert("Agendamento enviado com sucesso!");
 
+        if (dadosUsuario.tipo === "admin") {
+        window.location.href = "admin.html";
+        } else {
         window.location.href = "dashboard.html";
+        }
 
     } catch (erro) {
 
