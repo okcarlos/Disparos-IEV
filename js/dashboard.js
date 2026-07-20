@@ -113,6 +113,7 @@ ${agendamento.comprovante
 
 </div>
 
+<br> <br>
 <hr>
 
 `;
