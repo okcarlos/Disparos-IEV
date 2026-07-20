@@ -20,6 +20,11 @@ botao.addEventListener("click", async () => {
         .map(n => n.trim())
         .filter(n => n !== "");
 
+    const agora = new Date();
+    const dia = agora.getDate()
+    const horas = agora.getHours();
+
+
     const usuario = auth.currentUser;
 
     if (!usuario) {
@@ -42,6 +47,12 @@ botao.addEventListener("click", async () => {
         alert("Preencha todos os campos obrigatórios.");
         return;
     }
+
+    If (!dia){
+        alert("Os agendamentos devem ser feitos com 1 dia de antecedência");
+        return;
+    }
+        
 
     botao.disabled = true;
     botao.textContent = "Salvando...";
