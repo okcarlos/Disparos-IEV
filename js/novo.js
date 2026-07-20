@@ -20,10 +20,6 @@ botao.addEventListener("click", async () => {
         .map(n => n.trim())
         .filter(n => n !== "");
 
-    const agora = new Date();
-    const dia = agora.getDate()
-    const horas = agora.getHours();
-
 
     const usuario = auth.currentUser;
 
@@ -48,11 +44,18 @@ botao.addEventListener("click", async () => {
         return;
     }
 
-    If (horario == dia){
-        alert("Os agendamentos devem ser feitos com 1 dia de antecedência");
+
+    // Verifica se o agendamento é para pelo menos o dia seguinte
+    const hoje = new Date();
+    const dataAgendamento = new Date(horario);
+    
+    hoje.setHours(0, 0, 0, 0);
+    dataAgendamento.setHours(0, 0, 0, 0);
+    
+    if (dataAgendamento <= hoje) {
+        alert("Os disparos devem ser agendados com pelo menos 1 dia de antecedência.");
         return;
     }
-        
 
     botao.disabled = true;
     botao.textContent = "Salvando...";
