@@ -48,7 +48,7 @@ botao.addEventListener("click", async () => {
         return;
     }
 
-    If (!dia){
+    If (horario == dia){
         alert("Os agendamentos devem ser feitos com 1 dia de antecedência");
         return;
     }
