@@ -1,70 +1,132 @@
 import { auth, db } from "./firebase.js";
 
 import {
-    createUserWithEmailAndPassword
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 import {
+    collection,
+    query,
+    where,
+    onSnapshot,
     doc,
-    setDoc
+    getDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+const usuario = document.getElementById("usuario");
+const creditos = document.getElementById("creditos");
+const lista = document.getElementById("listaAgendamentos");
+const logout = document.getElementById("logout");
 
-document
-    .getElementById("criar")
-    .addEventListener("click", async ()=>{
+onAuthStateChanged(auth, async (user) => {
 
-        const nome = document.getElementById("nome").value;
-        const email = document.getElementById("email").value;
-        const senha = document.getElementById("senha").value;
-        const confirma = document.getElementById("confirma-senha").value;
+    if (!user) {
+        location.href = "login.html";
+        return;
+    }
 
+    usuario.textContent = "Logado como: " + user.email;
 
-        if(confirma !== senha){
+    // Busca os créditos do usuário
+    try {
 
-            alert("Confirmação de senha inválida");
+        const referencia = doc(db, "usuarios", user.uid);
+        const dados = await getDoc(referencia);
+
+        if (dados.exists()) {
+            creditos.textContent = dados.data().Creditos ?? 0;
+        } else {
+            creditos.textContent = 0;
+        }
+
+    } catch (erro) {
+        console.error("Erro ao carregar créditos:", erro);
+        creditos.textContent = 0;
+    }
+
+    const busca = query(
+        collection(db, "agendamentos"),
+        where("parceiro", "==", user.email)
+    );
+
+    onSnapshot(busca, (resultado) => {
+
+        lista.innerHTML = "";
+
+        if (resultado.empty) {
+            lista.innerHTML = "Nenhum agendamento cadastrado.";
             return;
-
         }
 
+        resultado.forEach((doc) => {
 
-        try{
+            const agendamento = doc.data();
 
-// Cria a conta no Firebase Auth
+            lista.innerHTML += `
 
-            const usuario = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                senha
-            );
+<div>
 
+<h3>${agendamento.empresa}</h3>
 
-// Pega o ID único do usuário
+<p>
+<strong>Quantidade:</strong>
+${agendamento.quantidade}
+</p>
 
-            const uid = usuario.user.uid;
+<p>
+<strong>Horário:</strong>
+${agendamento.horario}
+</p>
 
+<p>
+<strong>Mensagem:</strong>
+${agendamento.texto}
+</p>
 
-// Salva as informações no Firestore
+<p>
+<strong>Números:</strong><br>
+${agendamento.numeros.join("<br>")}
+</p>
 
-            await setDoc(doc(db,"usuarios",uid),{
+<p>
+<strong>Status:</strong>
+${agendamento.status}
+</p>
 
-                nome: nome,
-                email: email,
-                tipo: "Parceiro"
+<p>
+<strong>Anexos:</strong><br>
 
-            });
+${agendamento.arquivo
+                ? `<a href="${agendamento.arquivo}" target="_blank">📄 Arquivo</a><br>`
+                : ""}
 
+${agendamento.imagem
+                ? `<a href="${agendamento.imagem}" target="_blank">🖼️ Imagem</a><br>`
+                : ""}
 
-            alert("Conta criada!");
+${agendamento.comprovante
+                ? `<a href="${agendamento.comprovante}" target="_blank">💳 Comprovante</a>`
+                : ""}
 
-            location.href="index.html";
+</p>
 
+</div>
 
-        }catch(e){
+<hr>
 
-            alert(e.message);
+`;
 
-        }
-
+        });
 
     });
+
+});
+
+logout.addEventListener("click", async () => {
+
+    await signOut(auth);
+
+    location.href = "index.html";
+
+});
