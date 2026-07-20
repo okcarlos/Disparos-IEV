@@ -9,21 +9,41 @@ import {
     collection,
     query,
     where,
-    onSnapshot
+    onSnapshot,
+    doc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const usuario = document.getElementById("usuario");
+const creditos = document.getElementById("creditos");
 const lista = document.getElementById("listaAgendamentos");
 const logout = document.getElementById("logout");
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
     if (!user) {
         location.href = "login.html";
         return;
     }
 
-    usuario.innerHTML = "Logado como: " + user.email;
+    usuario.textContent = "Logado como: " + user.email;
+
+    // Busca os créditos do usuário
+    try {
+
+        const referencia = doc(db, "usuarios", user.uid);
+        const dados = await getDoc(referencia);
+
+        if (dados.exists()) {
+            creditos.textContent = dados.data().Creditos ?? 0;
+        } else {
+            creditos.textContent = 0;
+        }
+
+    } catch (erro) {
+        console.error("Erro ao carregar créditos:", erro);
+        creditos.textContent = 0;
+    }
 
     const busca = query(
         collection(db, "agendamentos"),
@@ -65,39 +85,29 @@ ${agendamento.texto}
 </p>
 
 <p>
-<strong>Numeros</strong>
-${agendamento.numeros}
+<strong>Números:</strong><br>
+${agendamento.numeros.join("<br>")}
 </p>
-
 
 <p>
 <strong>Status:</strong>
 ${agendamento.status}
 </p>
 
-
 <p>
-<strong>Anexos:</strong>
+<strong>Anexos:</strong><br>
 
-<br>
+${agendamento.arquivo
+                ? `<a href="${agendamento.arquivo}" target="_blank">📄 Arquivo</a><br>`
+                : ""}
 
-${
-                agendamento.arquivo
-                    ? `<a href="${agendamento.arquivo}" target="_blank">📄 Arquivo</a><br>`
-                    : ""
-            }
+${agendamento.imagem
+                ? `<a href="${agendamento.imagem}" target="_blank">🖼️ Imagem</a><br>`
+                : ""}
 
-${
-                agendamento.imagem
-                    ? `<a href="${agendamento.imagem}" target="_blank">🖼️ Imagem</a><br>`
-                    : ""
-            }
-
-${
-                agendamento.comprovante
-                    ? `<a href="${agendamento.comprovante}" target="_blank">💳 Comprovante</a>`
-                    : ""
-            }
+${agendamento.comprovante
+                ? `<a href="${agendamento.comprovante}" target="_blank">💳 Comprovante</a>`
+                : ""}
 
 </p>
 
