@@ -65,6 +65,11 @@ ${dados.texto}
 </p>
 
 <p>
+<strong>Números:</strong><br>
+${dados.numeros.join("<br>")}
+</p>
+
+<p>
 <strong>Status:</strong>
 <select class="status" data-id="${documento.id}">
     <option value="pendente" ${dados.status === "pendente" ? "selected" : ""}>Pendente</option>
