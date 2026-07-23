@@ -11,7 +11,8 @@ import {
     where,
     onSnapshot,
     doc,
-    getDoc
+    getDoc,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const usuario = document.getElementById("usuario");
@@ -59,15 +60,19 @@ onAuthStateChanged(auth, async (user) => {
             return;
         }
 
-        resultado.forEach((doc) => {
+        resultado.forEach((documento) => {
 
-            const agendamento = doc.data();
+    const agendamento = documento.data();
 
-            lista.innerHTML += `
+    lista.innerHTML += `
 
-<div>
+<div class="agendamento">
 
-<h3>${agendamento.empresa}</h3>
+<h3 class="titulo" data-id="${documento.id}">
+▶ ${agendamento.empresa}
+</h3>
+
+<div class="conteudo" id="agendamento-${documento.id}" style="display:none;">
 
 <p>
 <strong>Quantidade:</strong>
@@ -86,7 +91,7 @@ ${agendamento.texto}
 
 <p>
 <strong>Números:</strong><br>
-${agendamento.numeros.join("<br>")}
+${agendamento.numeros?.join("<br>") || "Nenhum número"}
 </p>
 
 <p>
@@ -98,31 +103,80 @@ ${agendamento.status}
 <strong>Anexos:</strong><br>
 
 ${agendamento.arquivo
-                ? `<a href="${agendamento.arquivo}" target="_blank">📄 Arquivo</a><br>`
-                : ""}
+? `<a href="${agendamento.arquivo}" target="_blank">📄 Arquivo</a><br>`
+: ""}
 
 ${agendamento.imagem
-                ? `<a href="${agendamento.imagem}" target="_blank">🖼️ Imagem</a><br>`
-                : ""}
+? `<a href="${agendamento.imagem}" target="_blank">🖼️ Imagem</a><br>`
+: ""}
 
 ${agendamento.comprovante
-                ? `<a href="${agendamento.comprovante}" target="_blank">💳 Comprovante</a>`
-                : ""}
+? `<a href="${agendamento.comprovante}" target="_blank">💳 Comprovante</a>`
+: ""}
 
 </p>
 
+<button class="excluir" data-id="${documento.id}">
+Excluir disparo
+</button>
+
 </div>
 
-<br> <br>
 <hr>
 
 `;
 
-        });
+});
+        document.querySelectorAll(".titulo").forEach((titulo) => {
+
+    titulo.onclick = () => {
+
+    const conteudo = document.getElementById(
+        "agendamento-" + titulo.dataset.id
+    );
+
+    if (conteudo.style.display === "none") {
+        conteudo.style.display = "block";
+        titulo.innerHTML = "▼ " + titulo.textContent.replace(/^▶ |^▼ /, "");
+    } else {
+        conteudo.style.display = "none";
+        titulo.innerHTML = "▶ " + titulo.textContent.replace(/^▶ |^▼ /, "");
+    }
+
+};
+
+});
+
+document.querySelectorAll(".excluir").forEach((botao) => {
+
+    botao.onclick = async () => {
+
+        if (!confirm("Deseja realmente excluir este disparo?")) return;
+
+        try {
+
+            await deleteDoc(
+                doc(db, "agendamentos", botao.dataset.id)
+            );
+
+            alert("Disparo excluído!");
+
+        } catch (erro) {
+
+            console.error(erro);
+            alert("Erro ao excluir.");
+
+        }
+
+    };
+
+});
 
     });
 
 });
+
+
 
 logout.addEventListener("click", async () => {
 
